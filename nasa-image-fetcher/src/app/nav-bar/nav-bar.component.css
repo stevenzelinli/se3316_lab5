@@ -1,0 +1,11 @@
+table{
+    width:100%;
+}
+th{
+    height: 30px;
+    color: white;
+    background-color: rgb(60, 60, 60);
+}
+th:hover{
+    background-color: rgb(162, 162, 162);
+}
