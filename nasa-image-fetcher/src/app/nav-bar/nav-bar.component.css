@@ -9,3 +9,6 @@ th{
 th:hover{
     background-color: rgb(162, 162, 162);
 }
+a{
+    color: white;
+}
