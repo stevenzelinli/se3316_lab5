@@ -1,0 +1,15 @@
+<label for="email">
+    Email: </label>
+<input id="email" #email type="text" name="email" placeholder="Your Email" required="">
+<br>
+<label for="password">Password: </label>
+<input id="password" #password type="password" name="password" placeholder="Your Password" required="">
+<br>
+<label for="passwordConf">Confirm Password: </label>
+<input id="passwordConf" #passwordConf type="password" name="passwordConf" placeholder="Confirm Password" required="">
+<div style="color:red;">
+    {{ error_msg }}
+</div>
+<button type="button" (click)="register(email.value, password.value, passwordConf.value);">Create User</button>
+<br>
+<a routerLink="/login">Login</a>

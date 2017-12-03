@@ -1,0 +1,13 @@
+<label for="email">
+    Email: </label>
+<input id="email" #email type="text" name="login_email" placeholder="Your Email" required="">
+<br>
+<label for="password">Password: </label>
+<input id="password" #password type="password" name="login_password" placeholder="Your Password" required="">
+<br>
+<button type="button" (click)="login(email.value, password.value);">Login</button>
+<div style="color:red;">
+    {{ error_msg }}
+</div>
+<br>
+<a routerLink="/register">Register</a>

@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
@@ -9,6 +9,12 @@ import { HomeComponent } from './home/home.component';
 import { ProfileComponent } from './profile/profile.component';
 import { SearchComponent } from './search/search.component';
 import { RouterModule, Routes } from '@angular/router';
+import { RegisterComponent } from './register/register.component';
+import { LoginComponent } from './login/login.component';
+
+import { AuthGuard } from './auth.guard';
+import { UserauthService } from './userauth.service';
+import { CollectionsComponent } from './collections/collections.component';
 
 const routes: Routes = [
   { 
@@ -17,11 +23,20 @@ const routes: Routes = [
   },
   { 
     path: 'profile',
-    component: ProfileComponent
+    component: ProfileComponent,
+    canActivate: [AuthGuard]
   },
   { 
     path: 'search',
     component: SearchComponent
+  },
+  {
+    path: 'login',
+    component: LoginComponent
+  },
+  {
+    path:'register',
+    component: RegisterComponent
   },
   { 
     path: '',
@@ -36,14 +51,18 @@ const routes: Routes = [
     NavBarComponent,
     HomeComponent,
     ProfileComponent,
-    SearchComponent
+    SearchComponent,
+    RegisterComponent,
+    LoginComponent,
+    CollectionsComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule,
     RouterModule.forRoot(routes)
   ],
-  providers: [],
+  providers: [AuthGuard, UserauthService],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

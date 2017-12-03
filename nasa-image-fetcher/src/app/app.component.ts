@@ -6,5 +6,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'Nasa Image Fetcher';
+    title = 'Nasa Image Fetcher';
+    constructor(){}
 }
