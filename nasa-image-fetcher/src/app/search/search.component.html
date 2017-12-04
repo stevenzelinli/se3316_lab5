@@ -1,4 +1,39 @@
 <span>
-  <h2>SEARCH</h2>
-  <input type="text" placeholder="Search for an image">
+    <h2>SEARCH</h2>
+    <input #searchfield type="text" placeholder="Search for an image">
+    <button type="button" (click)="search(searchfield.value);">Search</button>
+</span>
+<div>
+    <ul style="list-style-type: none;">
+        <li *ngFor="let image of imagesResponse.collection.items">
+            <div style="margin: 25px;">
+                <table>
+                    <tr>
+                        <td rowspan="3">
+                            <a target="_blank" href="{{ image.links[0].href }}">
+                                <img src="{{ image.links[0].href }}" alt="Loading Image" height="120">
+                            </a>
+                        </td>
+                        <td>
+                            <b>{{ image.data[0].title }}</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            {{ image.data[0].date_created }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <button type="button">Add to Collection</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </li>
+    </ul>
+</div>
+<span>
+    <button type="button">Previous</button>
+    <button type="button">Next</button>
 </span>
