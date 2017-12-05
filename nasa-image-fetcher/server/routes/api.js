@@ -109,6 +109,7 @@ router.route('/collections')
                         res.send(err);
                     }
                     collection.description = req.body.collection_description;
+                    collection.save();
                     res.json({ message: 'Success' });
                 });
         }
@@ -124,6 +125,7 @@ router.route('/collections')
                     res.send(err);
                 }
                 collection.images.push(req.body.add_image);
+                collection.save();
                 res.json({ message: 'Success' });
             });
         }
@@ -141,6 +143,7 @@ router.route('/collections')
                 collection.images.splice(collection.images.findIndex(function(image){
                     return image == req.body.remove_image;
                 }),1);
+                collection.save();
                 res.json({ message: 'Success' });
             });
         }
@@ -156,6 +159,7 @@ router.route('/collections')
                     res.send(err);
                 }
                 collection.name = req.body.new_name;
+                collection.save();
                 res.json({ message: 'Success' });
             });
         }

@@ -1,0 +1,41 @@
+commit d0dfb0603f0b6016e2404fe5f6dcf5bbafc6c4fe
+Author: Steven Li <steven.zelin.li@gmail.com>
+Date:   Mon Dec 4 22:31:26 2017 -0500
+
+    Working on collections, am able to create collections but am having trouble uding findById
+
+commit ec1402c91cd6f62a21c33e62d291bd8dce15efca
+Author: Steven Li <steven.zelin.li@gmail.com>
+Date:   Mon Dec 4 16:17:34 2017 -0500
+
+    Created functionality for searching nasa image archives on the search page. Put placeholder button that will eventually allow the user to add to a collection
+
+commit c213b61b549f08561dec2c66b3adaed662715f78
+Author: Steven Li <steven.zelin.li@gmail.com>
+Date:   Sun Dec 3 13:53:23 2017 -0500
+
+    Created user authentication and storing of user accounts in a mongodb server. Longest part was the keeping track of users navigating the site.
+
+commit f9c74860654fde40ff70fc48f7249b80c15d534b
+Author: Steven Li <steven.zelin.li@gmail.com>
+Date:   Sat Dec 2 14:21:54 2017 -0500
+
+    I set up a node backend serving the angular app. The node backend will also handle requests for data stored in mongodb
+
+commit 2a35292aa438fa799b39f332d771ec14c0ef034d
+Author: Steven Li <steven.zelin.li@gmail.com>
+Date:   Sat Dec 2 11:04:58 2017 -0500
+
+    Created base components: nav-bar, profile, search, home
+
+commit 4d0495ab262697531f9046a12f54bc5eb30bbed1
+Author: Steven Li <steven.zelin.li@gmail.com>
+Date:   Fri Dec 1 18:53:40 2017 -0500
+
+    Initialized Angular project and the mongodb dependencies
+
+commit a12dae8d835d726b598efe3f0c1ef9c4ca22eddc
+Author: Steven Li <24738613+stevenzelinli@users.noreply.github.com>
+Date:   Fri Dec 1 17:39:45 2017 -0500
+
+    Initial commit
