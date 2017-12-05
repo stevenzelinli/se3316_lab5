@@ -12,6 +12,11 @@ var UserSchema = new Schema({
     password: {
         type: String,
         required: true
+    },
+    // id of collection in
+    collections: {
+        type: [String],
+        default: []
     }
 });
 //authenticate input against database

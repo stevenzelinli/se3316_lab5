@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 var User = require('../models/user');
+var Collection = require('../models/collection');
 
 // middleware to use for all requests
 router.use(function (req, res, next) {
@@ -39,7 +40,7 @@ router.route('/users')
                     return next(err);
                 }
                 else {
-                    res.json({ message: 'Success' });
+                    res.json({ id: user._id });
                     //return res.redirect('profile');
                 }
             });
@@ -60,14 +61,116 @@ router.route('/users')
             res.json(users);
         });
     });
-
+// specific user
 router.route('/users/:email')
     // get the user associated with the email
     .get(function (req, res) {
-        user.find({ "email": req.params.email }, function (err, users) {
+        User.find({ "email": req.params.email }, function (err, users) {
             if (err)
                 res.send(err);
             res.json(users);
+        });
+    });
+// collections
+router.route('/collections')
+    .post(function (req, res, next) {
+        // new collection
+        if (req.body.create_collection_name && req.body.create_collection_author && req.body.create_collection_description) {
+            var collection = new Collection();
+            collection.name = req.body.create_collection_name;
+            collection.author = req.body.create_collection_author;
+            collection.description = req.body.create_collection_description;
+            collection.save(function (err) {
+                if (err)
+                    res.send(err);
+                User.findOne({ email: req.body.create_collection_author }).exec(function (err, user) {
+                    if (err)
+                        res.send(err);
+                    else if(!user){
+                        var err = new Error('User not found.');
+                        err.status = 401;
+                        res.send(err);
+                    }
+                    user.collections.push(collection._id);
+                });
+                res.json({ id: collection._id });
+            });
+        }
+        // change description
+        else if (req.body.collection_id && req.body.collection_description) {
+            Collection.findById(req.body.collection_id)
+                .exec(function (err, collection) {
+                    if (err) {
+                        res.send(err);
+                    }
+                    else if(!collection){
+                        var err = new Error('Collection not found.');
+                        err.status = 401;
+                        res.send(err);
+                    }
+                    collection.description = req.body.collection_description;
+                    res.json({ message: 'Success' });
+                });
+        }
+        // add image
+        else if (req.body.collection_id && req.body.add_image) {
+            Collection.findById(req.body.collection_id)
+            .exec(function (err, collection) {
+                if (err) {
+                    res.send(err);
+                } else if (!collection) {
+                    var err = new Error('Collection not found.');
+                    err.status = 401;
+                    res.send(err);
+                }
+                collection.images.push(req.body.add_image);
+                res.json({ message: 'Success' });
+            });
+        }
+        // remove image
+        else if (req.body.collection_id && req.body.remove_image) {
+            Collection.findById(req.body.collection_id)
+            .exec(function (err, collection) {
+                if (err) {
+                    res.send(err);
+                } else if (!collection) {
+                    var err = new Error('Collection not found.');
+                    err.status = 401;
+                    res.send(err);
+                }
+                collection.images.splice(collection.images.findIndex(function(image){
+                    return image == req.body.remove_image;
+                }),1);
+                res.json({ message: 'Success' });
+            });
+        }
+        // change name
+        else if (req.body.collection_id && req.body.new_name) {
+            Collection.findById(req.body.collection_id)
+            .exec(function (err, collection) {
+                if (err) {
+                    res.send(err);
+                } else if (!collection) {
+                    var err = new Error('Collection not found.');
+                    err.status = 401;
+                    res.send(err);
+                }
+                collection.name = req.body.new_name;
+                res.json({ message: 'Success' });
+            });
+        }
+        else{
+            var err = new Error("Missing Fields.");
+            err.status = 400;
+            res.status(400).send({ message: "Missing Fields." });
+            return next(err);
+        }
+    })
+    .get(function (req, res) {
+        Collection.find(function (err, collections) {
+            if (err)
+                res.send(err);
+            res.json(collections);
         });
     });
 

@@ -11,7 +11,6 @@ import { forEach } from '@angular/router/src/utils/collection';
 
 export class SearchComponent implements OnInit {
     private imagesResponse: ImagesResponse;
-    private imageURLs: string[];
     constructor(
         private http: HttpClient
     ) { }
@@ -24,14 +23,9 @@ export class SearchComponent implements OnInit {
         this.http.get<ImagesResponse>('https://images-api.nasa.gov/search', { params: params }).subscribe(
             data => {
                 this.imagesResponse = data;
-                this.imageURLs = [];
-                this.imagesResponse.collection.items.forEach(image =>{
-                    this.imageURLs.push(image.links[0].href);
-                });
             },
             err => {
                 this.imagesResponse = null;
-                this.imageURLs = [];
             }
         );
     }

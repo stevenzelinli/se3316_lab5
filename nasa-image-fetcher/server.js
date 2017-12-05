@@ -13,6 +13,7 @@ const path = require('path');
 
 mongoose.connect('mongodb://localhost:8070/users');
 var User = require('./server/models/user');
+var Collection = require('./server/models/collection');
 
 // configure app to use bodyParser()
 // this will let us get the data from a POST
