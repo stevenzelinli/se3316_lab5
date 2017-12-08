@@ -1,3 +1,18 @@
-<p>
-  collections works!
-</p>
+<h2>Choose a Collection to Add this image to</h2>
+<table>
+    <tr>
+        <td rowspan="2">
+            <a target="_blank" href="{{ imgLoader.img_href }}">
+                <img src="{{ imgLoader.img_href }}" alt="Loading Image" height="200">
+            </a>
+        </td>
+        <td>
+            <b>{{ imgLoader.img_title }}</b>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            {{ imgLoader.img_date }}
+        </td>
+    </tr>
+</table>

@@ -11,10 +11,12 @@ import { SearchComponent } from './search/search.component';
 import { RouterModule, Routes } from '@angular/router';
 import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
+import { CollectionsComponent } from './collections/collections.component';
 
 import { AuthGuard } from './auth.guard';
 import { UserauthService } from './userauth.service';
-import { CollectionsComponent } from './collections/collections.component';
+import { ImagesService } from './images.service';
+import { CreateCollComponent } from './create-coll/create-coll.component';
 
 const routes: Routes = [
   { 
@@ -38,6 +40,16 @@ const routes: Routes = [
     path:'register',
     component: RegisterComponent
   },
+  {
+      path: 'create-coll',
+      component: CreateCollComponent,
+      canActivate: [AuthGuard]
+  },
+  {
+      path:'collections',
+      component: CollectionsComponent,
+      canActivate: [AuthGuard]
+  },
   { 
     path: '',
     redirectTo: '/home',
@@ -54,7 +66,8 @@ const routes: Routes = [
     SearchComponent,
     RegisterComponent,
     LoginComponent,
-    CollectionsComponent
+    CollectionsComponent,
+    CreateCollComponent
   ],
   imports: [
     BrowserModule,
@@ -62,7 +75,7 @@ const routes: Routes = [
     HttpClientModule,
     RouterModule.forRoot(routes)
   ],
-  providers: [AuthGuard, UserauthService],
+  providers: [AuthGuard, UserauthService, ImagesService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

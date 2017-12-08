@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+//import { HttpClient } from '@angular/common/http';
+//import { HttpParams } from '@angular/common/http';
+//import { forEach } from '@angular/router/src/utils/collection';
+import { ImagesService } from '../images.service';
+import { RouterModule, Router } from "@angular/router";
 
 @Component({
   selector: 'app-collections',
@@ -7,7 +12,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CollectionsComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+      public imgLoader: ImagesService,
+      router: Router
+  ) { }
 
   ngOnInit() {
   }

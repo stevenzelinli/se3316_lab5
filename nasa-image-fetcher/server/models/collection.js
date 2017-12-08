@@ -1,6 +1,26 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
+// used for nested documents
+var ImageSchema = new Schema({
+    title: {
+        type: String,
+        required: true,
+        trim: true
+    },
+    date: {
+        type: String,
+        required: true,
+        trim: true
+    },
+    href: {
+        type: String,
+        required: true,
+        trim: true
+    }
+});
+
+// schema defines collection
 var CollectionSchema = new Schema({
     name: {
         type: String,
@@ -22,7 +42,7 @@ var CollectionSchema = new Schema({
         max: 5
     },
     images: {
-        type: [String],
+        type: [ImageSchema],
         default: []
     }
 });

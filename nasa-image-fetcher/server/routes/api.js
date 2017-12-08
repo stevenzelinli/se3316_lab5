@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 var User = require('../models/user');
 var Collection = require('../models/collection');
+var ImageSchema = require('../models/collection');
 
 // middleware to use for all requests
 router.use(function (req, res, next) {
@@ -16,6 +17,7 @@ router.use(function (req, res, next) {
 router.route('/users')
     // create user
     .post(function (req, res, next) {
+
         // IF REGISTERING NEW USER
         if (req.body.email &&
             req.body.password) {
@@ -86,7 +88,7 @@ router.route('/collections')
                 User.findOne({ email: req.body.create_collection_author }).exec(function (err, user) {
                     if (err)
                         res.send(err);
-                    else if(!user){
+                    else if (!user) {
                         var err = new Error('User not found.');
                         err.status = 401;
                         res.send(err);
@@ -103,7 +105,7 @@ router.route('/collections')
                     if (err) {
                         res.send(err);
                     }
-                    else if(!collection){
+                    else if (!collection) {
                         var err = new Error('Collection not found.');
                         err.status = 401;
                         res.send(err);
@@ -114,56 +116,71 @@ router.route('/collections')
                 });
         }
         // add image
-        else if (req.body.collection_id && req.body.add_image) {
+        else if (req.body.collection_id && req.body.add_image && req.body.image_title && req.body.image_date) {
             Collection.findById(req.body.collection_id)
-            .exec(function (err, collection) {
-                if (err) {
-                    res.send(err);
-                } else if (!collection) {
-                    var err = new Error('Collection not found.');
-                    err.status = 401;
-                    res.send(err);
-                }
-                collection.images.push(req.body.add_image);
-                collection.save();
-                res.json({ message: 'Success' });
-            });
+                .exec(function (err, collection) {
+                    if (err) {
+                        res.send(err);
+                    } else if (!collection) {
+                        var err = new Error('Collection not found.');
+                        err.status = 401;
+                        res.send(err);
+                    }
+                    if (collection.images.find(function (image) {
+                        return image.href == req.body.add_image;
+                    })) {
+                        var err = new Error('Image already in collection.');
+                        err.status = 401;
+                        res.send(err);
+                    }
+                    else {
+                        collection.images.push({
+                            title: req.body.image_title,
+                            date: req.body.image_date,
+                            href: req.body.add_image
+                        });
+                        collection.save(function (err) {
+                            if (err) res.send(err);
+                            res.json({ message: 'Success' });
+                        });
+                    }
+                });
         }
         // remove image
         else if (req.body.collection_id && req.body.remove_image) {
             Collection.findById(req.body.collection_id)
-            .exec(function (err, collection) {
-                if (err) {
-                    res.send(err);
-                } else if (!collection) {
-                    var err = new Error('Collection not found.');
-                    err.status = 401;
-                    res.send(err);
-                }
-                collection.images.splice(collection.images.findIndex(function(image){
-                    return image == req.body.remove_image;
-                }),1);
-                collection.save();
-                res.json({ message: 'Success' });
-            });
+                .exec(function (err, collection) {
+                    if (err) {
+                        res.send(err);
+                    } else if (!collection) {
+                        var err = new Error('Collection not found.');
+                        err.status = 401;
+                        res.send(err);
+                    }
+                    collection.images.splice(collection.images.findIndex(function (image) {
+                        return image.href == req.body.remove_image;
+                    }), 1);
+                    collection.save();
+                    res.json({ message: 'Success' });
+                });
         }
         // change name
         else if (req.body.collection_id && req.body.new_name) {
             Collection.findById(req.body.collection_id)
-            .exec(function (err, collection) {
-                if (err) {
-                    res.send(err);
-                } else if (!collection) {
-                    var err = new Error('Collection not found.');
-                    err.status = 401;
-                    res.send(err);
-                }
-                collection.name = req.body.new_name;
-                collection.save();
-                res.json({ message: 'Success' });
-            });
+                .exec(function (err, collection) {
+                    if (err) {
+                        res.send(err);
+                    } else if (!collection) {
+                        var err = new Error('Collection not found.');
+                        err.status = 401;
+                        res.send(err);
+                    }
+                    collection.name = req.body.new_name;
+                    collection.save();
+                    res.json({ message: 'Success' });
+                });
         }
-        else{
+        else {
             var err = new Error("Missing Fields.");
             err.status = 400;
             res.status(400).send({ message: "Missing Fields." });
@@ -178,6 +195,14 @@ router.route('/collections')
         });
     });
 
+router.route('/collections/:email')
+    .get(function (req, res){
+        Collection.find({ author: req.params.email },function (err, collections) {
+            if (err)
+                res.send(err);
+            res.json(collections);
+        });
+    });
 // logout route
 router.get('/logout', function (req, res, next) {
     if (req.session) {

@@ -5,7 +5,7 @@
 </div>
 <div>
     <ul style="list-style: none; padding-left: 0;">
-        <li *ngFor="let image of imagesResponse.collection.items">
+        <li *ngFor="let image of imagesResponse.collection.items; let i = index">
             <div style="margin: 25px; margin-left: 0;">
                 <table>
                     <tr>
@@ -25,7 +25,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <button type="button">Add to Collection</button>
+                            <button type="button" (click)="addToCollection(image.data[0].title, image.data[0].date_created, image.links[0].href);">Add to Collection</button>
                         </td>
                     </tr>
                 </table>

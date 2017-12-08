@@ -1,0 +1,14 @@
+<h2>Create Collection</h2>
+<label for="name">
+    Name: </label>
+<input id="name" #name type="text" placeholder="Collection Name" required="">
+<br>
+<label for="description">Description: </label>
+<input id="description" #description type="text" placeholder="Description" required="">
+<br>
+<button type="button" (click)="create(name.value, description.value);">Create</button>
+<div style="color:red;">
+    {{ error_msg }}
+</div>
+<br>
+<a routerLink="/profile">Back</a>
